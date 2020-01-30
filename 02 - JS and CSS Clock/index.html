@@ -75,22 +75,30 @@
     const minuteHand = document.querySelector('.min-hand');
     const hourHand = document.querySelector('.hour-hand');
 
+    const transformHTML = (secondDegrees, minuteDegrees, hourDegrees) => {
+      // transform html item
+      secondHand.style.transform = `rotate(${secondDegrees}deg)`
+      minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
+      hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+    }
+
+    const translateToDegrees = (seconds, minutes, hours) => {
+      // translate times into degrees
+      const secondDegrees = ((seconds / 60) * 360) + 90;
+      const minuteDegrees = ((minutes / 60) * 360) + 90;
+      const hourDegrees = ((hours / 24) * 360) + 90;
+
+      transformHTML(secondDegrees, minuteDegrees, hourDegrees)
+    }
+
     // get the exact second of the minute we are in
     const setDate = () => {
       const now = new Date();
       const seconds = now.getSeconds();
       const minutes = now.getMinutes();
       const hours = now.getHours();
-      console.log(hours);
 
-      // translate seconds into degrees
-      const secondDegrees = ((seconds / 60) * 360) + 90;
-      const minuteDegrees = ((minutes / 60) * 360) + 90;
-      const hourDegrees = ((hours / 24) * 360) + 90;
-
-      secondHand.style.transform = `rotate(${secondDegrees}deg)`
-      minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
-      hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+      translateToDegrees(seconds, minutes, hours);
     }
 
     // run the setDate interval each second
