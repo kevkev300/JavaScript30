@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+  const canvas = document.getElementById('draw');
+  const ctx = canvas.getContext('2d'); // get what is drawn on the canvas
+
+  // set canvas height and width to entire window
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  ctx.strokeStyle = '#BADA55'; // color of the line start
+  ctx.lineJoin = 'round'; // style when lines are crossing
+  ctx.lineCap = 'round'; // style of line
+  ctx.globalCompositeOperation = 'color'; // what happens when overlaying color
+
+  let isDrawing = false // doesn' draw when mouse is not clicked (not draw is default)
+  let lastX = 0; // used for the starting of the line
+  let lastY = 0;
+  let hue = 0;
+  let direction = true;
+
+  function draw(e) {
+    if(!isDrawing) return // stop function from running if isDrawing == false
+    console.log(e);
+
+    // start the line
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY); // start from
+    ctx.lineTo(e.offsetX, e.offsetY); // where to go
+    ctx.stroke();
+
+    // update next dot to start from
+    [lastX, lastY] = [e.offsetX, e.offsetY]
+
+    // change color fadingly
+    hue++;
+
+    // make the line width fading up and down
+    if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+      direction = !direction;
+    }
+
+    if(direction) {
+      ctx.lineWidth++;
+    } else {
+      ctx.lineWidth--;
+    }
+  }
+
+
+  // find if user wants to draw (clicked)
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY] // set startpoint of line dynamically
+  });
+
+  // draw
+  canvas.addEventListener('mousemove', draw);
+
+  // find if user doesn't want to draw anymore (not clicked)
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+
+
+</script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+</style>
+
+</body>
+</html>
