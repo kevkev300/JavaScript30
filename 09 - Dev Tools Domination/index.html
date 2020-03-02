@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log('Hello');
+
+    // Interpolated
+    console.log('Hello, I am %s string', 'an awesome');
+
+    // Styled
+    console.log('%c I am an awesome text', 'font-size: 20px; color: red');
+
+    // warning!
+    console.warn('Oh nooo WARNING!');
+
+    // Error :|
+    console.error('Shit, an error!');
+
+    // Info
+    console.info('Crocodiles eat 3-4 people per year');
+
+    // Testing
+    const p = document.querySelector('p');
+    console.assert(p.classList.contains('ouch'), 'That is wrong');   // fires if wrong!
+
+    // clearing
+    console.clear();
+
+    // Viewing DOM Elements
+    console.log(p); // element
+    console.dir(p); // opens it up and shows properties like class list...
+
+    // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`); // collapsed properties
+      // console.group(`${dog.name}`); // with open properties
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.groupEnd(`${dog.name}`)
+    })
+
+    // counting
+    console.count('Wes'); // how many times x is used
+
+    // timing
+    // how long sth takes
+    console.time('fetching data') // set a time
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json)
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      })
+
+    // table
+    // make something nicly displayable in a table when having the same properties
+    console.table(dogs);
+
+  </script>
+</body>
+</html>
